@@ -24,8 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf().disable();
     http.headers().frameOptions().disable();
     http.authorizeRequests()
-//        .antMatchers("/**").hasIpAddress("127.0.0.1")
-        .antMatchers("/**").permitAll()
+        //TODO: Ezfarm-apigateway 배포시 gateway 서버의 ip로만 접속 가능하게 설정해야 한다.
+        .antMatchers("/**").hasIpAddress("127.0.0.1")
         .and()
         .addFilter(getAuthenticationFilter());
   }

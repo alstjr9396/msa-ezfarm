@@ -1,0 +1,10 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: ezfarm-apigateway
+
+token:
+  expiration_time: 360000
+  secret: temporary-token

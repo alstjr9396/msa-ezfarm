@@ -1,0 +1,78 @@
+= RESTful Users Getting Started Guide
+Minseok Kang;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[introduction]]
+= Introduction
+
+RESTful Notes is a RESTful web service for creating and storing notes. It uses hypermedia
+to describe the relationships between resources and to allow navigation between them.
+
+
+
+[[getting_started_running_the_service]]
+== Running the service
+RESTful Notes is written using https://github.com/alstjr9396/msa-ezfarm[MSA-Ezfarm Readme] which
+makes it easy to get it up and running so that you can start exploring the REST API.
+
+The first step is to clone the Git repository:
+
+[source,bash]
+----
+$ git clone https://github.com/alstjr9396/msa-ezfarm/tree/master/ezfarm-user
+----
+
+Once the clone is complete, you're ready to get the service up and running:
+
+[source,bash]
+----
+$ cd msa-ezfarm/ezfarm-user
+$ ./mvnw clean package
+$ java -jar target/*.jar
+----
+
+You can check that the service is up and running by executing a simple request using
+cURL:
+
+//include::{snippets}/health-check/1/curl-request.adoc[]
+
+
+[[getting_started_creating_a_user]]
+== Create a user
+
+To create a user, you need to execute a `POST` request to this URI including a JSON
+payload containing the email, name and pwd of the user:
+
+include::{snippets}/create-a-user/1/http-request.adoc[]
+
+The response from this request should have a status code of `201 Created`
+and response with the user’s details in its body:
+
+include::{snippets}/create-a-user/1/http-response.adoc[]
+
+[[getting_started_creating_a_note]]
+== Get a user
+
+To get a user, you need to execute a 'POST' request to this URI including a JSON
+payload containing the email and pwd of the user:
+
+include::{snippets}/login-the-service/2/http-request.adoc[]
+
+The response from this request should have a status code of `200 OK` and contain a
+`token` header that will use for Authorization the user:
+
+include::{snippets}/login-the-service/2/http-response.adoc[]
+
+Now that you've login the service and can request a details of yours. As you saw above,
+the header is including the JWT token for performing a `GET/POST` request:
+
+include::{snippets}/get-a-user/2/http-request.adoc[]
+
+This request will produce a response with the user’s details in its body:
+
+include::{snippets}/get-a-user/2/http-response.adoc[]

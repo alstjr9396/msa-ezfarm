@@ -16,23 +16,30 @@ public class RouteConfig {
   public RouteLocator gatewayRoutes(RouteLocatorBuilder builder,
       AuthorizationFilter authorizationFilter) {
     //TODO: Ezfarm-user 다중 서버 환경 -> Load Balancing 필요
-    return builder.routes()
-        .route("ezfarm-user",
-            r -> r.path("/login", "/actuators/**")
-                .filters(f -> f.removeRequestHeader("Cookie"))
-                .uri("http://127.0.0.1:8080")
-        ).route("ezfarm-user",
-            r -> r.path("/users")
-                .and()
-                .method(HttpMethod.POST)
-                .filters(f -> f.removeRequestHeader("Cookie"))
-                .uri("http://127.0.0.1:8080")
-        ).route("ezfarm-user",
-            r -> r.path("/users/**")
-                .filters(f -> f.removeRequestHeader("Cookie")
-                    .filter(authorizationFilter.apply(new Config())))
-                .uri("http://127.0.0.1:8080")
-        ).build();
+      return builder.routes()
+              .route("ezfarm-user",
+                      r -> r.path("/login", "/actuators/**")
+                              .filters(f -> f.removeRequestHeader("Cookie"))
+                              .uri("http://127.0.0.1:8080")
+              ).route("ezfarm-user",
+                      r -> r.path("/users")
+                              .and()
+                              .method(HttpMethod.POST)
+                              .filters(f -> f.removeRequestHeader("Cookie"))
+                              .uri("http://127.0.0.1:8080")
+              ).route("ezfarm-user",
+                      r -> r.path("/users/**")
+                              .filters(f -> f.removeRequestHeader("Cookie")
+                                      .filter(authorizationFilter.apply(new Config())))
+                              .uri("http://127.0.0.1:8080")
+              ).route("ezfarm-farm",
+                      r -> r.path("/farms")
+                              .and()
+                              .method(HttpMethod.POST)
+                              .filters(f -> f.removeRequestHeader("Cookie")
+                                      .filter(authorizationFilter.apply(new Config())))
+                              .uri("http://127.0.0.1:8090")
+              ).build();
 
 //        return builder.routes()
 //        .route("ezfarm-user-high",

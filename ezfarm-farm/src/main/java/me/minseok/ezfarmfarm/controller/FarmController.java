@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -19,8 +20,8 @@ public class FarmController {
     private final FarmService farmService;
 
     @PostMapping("/farms")
-    public ResponseEntity<ResponseFarm> createUser(@RequestBody @Valid RequestFarm requestFarm) {
-        ResponseFarm responseFarm = farmService.createFarm(requestFarm);
+    public ResponseEntity<ResponseFarm> createUser(@RequestHeader(value = "Authorization") String token, @RequestBody @Valid RequestFarm requestFarm) {
+        ResponseFarm responseFarm = farmService.createFarm(token, requestFarm);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseFarm);
     }
